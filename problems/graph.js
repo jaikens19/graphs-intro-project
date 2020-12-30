@@ -1,23 +1,47 @@
-
 class Graph {
   constructor() {
-    // Code goes here ...
+    this.adjList = {}
   }
 
   addVertex(vertex) {
-    // Code goes here ...
+    if(this.adjList[vertex] === undefined){
+      this.adjList[vertex] = []
+    }
   }
 
   addEdges(srcValue, destValue) {
-    // Code goes here ...
+    if(this.adjList[srcValue] === undefined) this.addVertex(srcValue)
+    if(this.adjList[destValue] === undefined) this.addVertex(destValue)
+
+    this.adjList[srcValue].push(destValue)
+    this.adjList[destValue].push(srcValue)
   }
 
   buildGraph(edges) {
-    // Code goes here ...
+    edges.forEach(edge => {
+      this.addEdges(...edge)
+    })
+    return this.adjList
   }
 
-  breadthFirstTraversal(startingVertex) {
-    // Code goes here ...
+  breadthFirstTraversal(startingVertex, newArr = []) {
+    if (!startingVertex) return newArr;
+    const queueArr = [startingVertex];
+
+    while (queueArr.length > 0) {
+
+      let node = queueArr.shift();
+      newArr.push(node.val);
+
+      if (node.left) {
+        queueArr.push(node.left);
+      }
+      if (node.right) {
+        queueArr.push(node.right);
+      }
+    }
+    console.log(newArr)
+    return newArr;
   }
 
   depthFirstTraversalIterative(startingVertex) {
